@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Distribution Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f0f0ec;
+    color: #2a2a2a;
+    padding: 40px 24px;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 44px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+
+  .header p {
+    font-size: 14px;
+    color: #777;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  /* ─── SCENARIO SECTIONS ─── */
+  .scenario {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 28px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .scenario-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+    margin-bottom: 12px;
+  }
+
+  .scenario h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+  }
+
+  /* ─── CUP VISUALIZATION ─── */
+  .cups-row {
+    display: flex;
+    gap: 36px;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 28px 0;
+    flex-wrap: wrap;
+  }
+
+  .cup-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 160px;
+  }
+
+  .cup-label {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #444;
+  }
+
+  .cup-sublabel {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 12px;
+  }
+
+  .cup {
+    width: 120px;
+    position: relative;
+    border: 3px solid #333;
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+    overflow: hidden;
+    background: #fafafa;
+  }
+
+  .cup::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -8px;
+    right: -8px;
+    height: 3px;
+    background: #333;
+    border-radius: 2px;
+  }
+
+  .cup-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .fill-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .fill-segment .seg-label {
+    font-size: 10px;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  /* Colors */
+  .color-a { background: #4a8fe7; }
+  .color-b { background: #e76f51; }
+  .color-empty { background: repeating-linear-gradient(45deg, #e8e8e8, #e8e8e8 4px, #f2f2f2 4px, #f2f2f2 8px); }
+
+  .cup-total {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin-top: 10px;
+  }
+
+  .est-line {
+    position: absolute;
+    top: 0;
+    left: -6px;
+    right: -6px;
+    border-top: 2px dashed #c44;
+    z-index: 5;
+  }
+
+  .est-tag {
+    position: absolute;
+    top: -8px;
+    right: -52px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #c44;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  /* ─── ARROW / FLOW ─── */
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #bbb;
+    padding-bottom: 30px;
+  }
+
+  /* ─── STEP NARRATIVE ─── */
+  .narrative {
+    background: #f7f7f5;
+    border-left: 3px solid #333;
+    padding: 16px 20px;
+    margin: 20px 0 0 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #444;
+  }
+
+  .narrative strong { color: #1a1a1a; }
+
+  .check { color: #3a9a5c; }
+  .warn { color: #c44; }
+
+  /* ─── KEY ─── */
+  .key-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .key-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #666;
+  }
+
+  .key-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+  }
+
+  /* ─── TAKEAWAY ─── */
+  .takeaway {
+    background: #1a1a1a;
+    color: #f0f0ec;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-top: 28px;
+  }
+
+  .takeaway h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    margin-bottom: 14px;
+    color: #fff;
+  }
+
+  .takeaway p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #ccc;
+  }
+
+  .takeaway p + p { margin-top: 12px; }
+  .takeaway strong { color: #fff; }
+
+  .highlight-num {
+    display: inline-block;
+    background: #e76f51;
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 0 2px;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .cups-row { gap: 20px; }
+    .cup { width: 100px; }
+    .scenario { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Filling the Cup</h1>
+    <p>How to distribute time across sets</p>
+  </div>
+
+  <!-- KEY -->
+  <div class="scenario" style="padding: 20px 32px;">
+    <div class="key-row">
+      <div class="key-item"><div class="key-swatch color-a"></div> Employee A's hours</div>
+      <div class="key-item"><div class="key-swatch color-b"></div> Employee B's hours</div>
+      <div class="key-item"><div class="key-swatch" style="background: repeating-linear-gradient(45deg, #e0e0e0, #e0e0e0 3px, #eee 3px, #eee 6px);border:1px solid #ddd;"></div> Unfilled (remaining estimate)</div>
+      <div class="key-item"><div style="width:14px;border-top:2px dashed #c44;"></div> Estimated time</div>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="scenario">
+    <div class="scenario-label">Step 1 — Start with what you worked</div>
+    <h2>Place actual time where you worked it</h2>
+
+    <div class="cups-row">
+      <!-- Ice Cream cup -->
+      <div class="cup-group">
+        <div class="cup-label">🍦 Ice Cream</div>
+        <div class="cup-sublabel">Estimated: 8 hrs</div>
+        <div class="cup" style="height: 160px;">
+          <div class="cup-fill">
+            <div class="fill-segment color-a" style="height: 60px;">
+              <span class="seg-label">Emp A<br>3 hrs</span>
+            </div>
+            <div class="fill-segment color-b" style="height: 60px;">
+              <span class="seg-label">Emp B<br>3 hrs</span>
+            </div>
+          </div>
+          <div class="est-line" style="top:0;">
+            <span class="est-tag">8 hr est.</span>
+          </div>
+        </div>
+        <div class="cup-total"><span class="check">✓</span> 6 of 8 hrs filled</div>
+      </div>
+
+      <!-- Dog Food cup -->
+      <div class="cup-group">
+        <div class="cup-label">🐕 Dog Food</div>
+        <div class="cup-sublabel">Estimated: 2 hrs</div>
+        <div class="cup" style="height: 160px;">
+          <div class="cup-fill">
+            <div class="fill-segment color-a" style="height: 80px;">
+              <span class="seg-label">Emp A<br>2 hrs</span>
+            </div>
+            <div class="fill-segment color-b" style="height: 80px;">
+              <span class="seg-label">Emp B<br>2 hrs</span>
+            </div>
+          </div>
+          <div class="est-line" style="top: 120px;">
+            <span class="est-tag">2 hr est.</span>
+          </div>
+        </div>
+        <div class="cup-total"><span class="warn">⚠</span> 4 hrs — overflowing!</div>
+      </div>
+    </div>
+
+    <div class="narrative">
+      Ice Cream is fine — <strong>under estimate</strong> with room to spare.<br>
+      Dog Food is a problem — <strong>4 actual hours into a 2-hour cup</strong>. That cup is overflowing and the extra time has nowhere to go.
+    </div>
+  </div>
+
+  <!-- ARROW -->
+  <div class="flow-arrow">▼&ensp;So instead, do this&ensp;▼</div>
+
+  <!-- STEP 2 -->
+  <div class="scenario">
+    <div class="scenario-label">Step 2 — Spread the time to fill cups evenly</div>
+    <h2>Move overflow into sets with room</h2>
+
+    <div class="cups-row">
+      <!-- Ice Cream cup — redistributed -->
+      <div class="cup-group">
+        <div class="cup-label">🍦 Ice Cream</div>
+        <div class="cup-sublabel">Estimated: 8 hrs</div>
+        <div class="cup" style="height: 160px;">
+          <div class="cup-fill">
+            <div class="fill-segment color-a" style="height: 80px;">
+              <span class="seg-label">Emp A<br>3+1 hrs</span>
+            </div>
+            <div class="fill-segment color-b" style="height: 80px;">
+              <span class="seg-label">Emp B<br>3+1 hrs</span>
+            </div>
+          </div>
+          <div class="est-line" style="top:0;">
+            <span class="est-tag">8 hr est.</span>
+          </div>
+        </div>
+        <div class="cup-total"><span class="check">✓</span> 8 of 8 hrs — full!</div>
+      </div>
+
+      <!-- Dog Food cup — redistributed -->
+      <div class="cup-group">
+        <div class="cup-label">🐕 Dog Food</div>
+        <div class="cup-sublabel">Estimated: 2 hrs</div>
+        <div class="cup" style="height: 160px;">
+          <div class="cup-fill">
+            <div class="fill-segment color-a" style="height: 40px;">
+              <span class="seg-label">Emp A<br>1 hr</span>
+            </div>
+            <div class="fill-segment color-b" style="height: 40px;">
+              <span class="seg-label">Emp B<br>1 hr</span>
+            </div>
+          </div>
+          <div class="est-line" style="top: 120px;">
+            <span class="est-tag">2 hr est.</span>
+          </div>
+        </div>
+        <div class="cup-total"><span class="check">✓</span> 2 of 2 hrs — full!</div>
+      </div>
+    </div>
+
+    <div class="narrative">
+      <strong>Same total hours for each employee.</strong> Nothing changed about how long they actually worked — we just placed 1 hour each from Dog Food into Ice Cream, where there was room.<br><br>
+      Emp A: still 4 hrs total (1 Dog Food + 3 Ice Cream → <strong>1 Dog Food + 3+1 Ice Cream</strong>)<br>
+      Emp B: still 4 hrs total (1 Dog Food + 3 Ice Cream → <strong>1 Dog Food + 3+1 Ice Cream</strong>)
+    </div>
+  </div>
+
+  <!-- STEP 3 — Rounding guidance -->
+  <div class="scenario">
+    <div class="scenario-label">Step 3 — When everything comes in under</div>
+    <h2>Rounding up? Keep it reasonable.</h2>
+
+    <div class="cups-row">
+      <div class="cup-group">
+        <div class="cup-label">🍦 Ice Cream</div>
+        <div class="cup-sublabel">Est. 8 hrs — Done in 6</div>
+        <div class="cup" style="height: 120px;">
+          <div class="cup-fill">
+            <div class="fill-segment color-a" style="height: 45px;"><span class="seg-label">A: 3h</span></div>
+            <div class="fill-segment color-b" style="height: 45px;"><span class="seg-label">B: 3h</span></div>
+          </div>
+        </div>
+        <div class="cup-total">6 of 8</div>
+      </div>
+      <div class="cup-group">
+        <div class="cup-label">🐕 Dog Food</div>
+        <div class="cup-sublabel">Est. 2 hrs — Done in 1</div>
+        <div class="cup" style="height: 120px;">
+          <div class="cup-fill">
+            <div class="fill-segment color-a" style="height: 30px;"><span class="seg-label">A: .5</span></div>
+            <div class="fill-segment color-b" style="height: 30px;"><span class="seg-label">B: .5</span></div>
+          </div>
+        </div>
+        <div class="cup-total">1 of 2</div>
+      </div>
+      <div class="cup-group">
+        <div class="cup-label">📦 Set C</div>
+        <div class="cup-sublabel">Under est.</div>
+        <div class="cup" style="height: 120px;">
+          <div class="cup-fill">
+            <div class="fill-segment color-a" style="height: 40px;"></div>
+            <div class="fill-segment color-b" style="height: 40px;"></div>
+          </div>
+        </div>
+        <div class="cup-total">Under</div>
+      </div>
+      <div class="cup-group">
+        <div class="cup-label">📦 Set D</div>
+        <div class="cup-sublabel">Under est.</div>
+        <div class="cup" style="height: 120px;">
+          <div class="cup-fill">
+            <div class="fill-segment color-a" style="height: 35px;"></div>
+            <div class="fill-segment color-b" style="height: 35px;"></div>
+          </div>
+        </div>
+        <div class="cup-total">Under</div>
+      </div>
+      <div class="cup-group">
+        <div class="cup-label">📦 Set E</div>
+        <div class="cup-sublabel">Under est.</div>
+        <div class="cup" style="height: 120px;">
+          <div class="cup-fill">
+            <div class="fill-segment color-a" style="height: 38px;"></div>
+            <div class="fill-segment color-b" style="height: 38px;"></div>
+          </div>
+        </div>
+        <div class="cup-total">Under</div>
+      </div>
+    </div>
+
+    <div class="narrative">
+      If <strong>every</strong> set comes in under estimate, yes — you can round up everyone's time a respectable amount to mostly fill the cups. Spread it evenly and keep it reasonable.
+    </div>
+  </div>
+
+  <!-- TAKEAWAY -->
+  <div class="takeaway">
+    <h3>The Bottom Line</h3>
+    <p>
+      <strong>Your total hours don't change</strong> — you're just placing them where the room is. Fill the cups that have space before overfilling any single one.
+    </p>
+    <p>
+      Keep in mind: there are <strong><span class="highlight-num">130+</span> other stores</strong> reporting on the same sets with similar sizes and estimates. When everything is visible side by side, the numbers need to make sense.
+    </p>
+    <p>
+      Coming in <strong>slightly under the estimated times occasionally is never a bad thing</strong> — it shows the team is efficient. You don't have to fill every cup to the brim every time.
+    </p>
+  </div>
+
+</div>
+</body>
+</html>
